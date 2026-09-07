@@ -18,6 +18,7 @@ interface HeaderProps {
   onThemeToggle: () => void;
   language?: Language;
   setLanguage?: Dispatch<SetStateAction<Language>>;
+  companyName: string;
 }
 
 export const Header = ({
@@ -27,12 +28,13 @@ export const Header = ({
   onThemeToggle,
   language = "en",
   setLanguage,
+  companyName,
 }: HeaderProps) => {
   const isDark = theme === "dark";
   const isBM = language === "bm";
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profileName, setProfileName] = useState(user);
-  const [profileEmail, setProfileEmail] = useState("manager@ecobite.com");
+  const [profileEmail, setProfileEmail] = useState("manager@wiseserve.com");
 
   const handleProfileSave = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,6 +58,10 @@ export const Header = ({
         >
           {title}
         </h1>
+        <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          {companyName}
+        </p>
       </div>
 
       <div className="flex items-center gap-3">
@@ -163,7 +169,7 @@ export const Header = ({
             </div>
             <div className="relative z-10 mt-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Active account <span className="text-slate-300">·</span> EcoBite
+              Active account <span className="text-slate-300">·</span> WiseServe
               Central
             </div>
           </div>
@@ -186,7 +192,7 @@ export const Header = ({
             type="email"
             value={profileEmail}
             onChange={(event) => setProfileEmail(event.target.value)}
-            placeholder="manager@ecobite.com"
+            placeholder="manager@wiseserve.com"
             required
           />
 
@@ -207,7 +213,7 @@ export const Header = ({
               <span className="block text-[10px] uppercase tracking-[0.14em] text-slate-400">
                 Outlet
               </span>
-              <span className="mt-1 block font-medium">EcoBite Central</span>
+              <span className="mt-1 block font-medium">{companyName}</span>
             </div>
           </div>
 

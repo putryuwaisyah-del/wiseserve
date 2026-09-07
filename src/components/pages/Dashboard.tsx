@@ -17,9 +17,12 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
+  ZAxis,
 } from "recharts";
 
 export const Dashboard = ({ theme = "light" }: DashboardProps) => {
@@ -106,6 +109,38 @@ export const Dashboard = ({ theme = "light" }: DashboardProps) => {
       value: 12,
       lightColor: "#e11d48",
       darkColor: "#fb7185",
+    },
+  ];
+
+  const profitabilityData = [
+    {
+      name: "Teriyaki Bento",
+      sales: 86,
+      margin: 62,
+      waste: 34,
+      color: "#2563eb",
+    },
+    {
+      name: "Sashimi Plate",
+      sales: 54,
+      margin: 48,
+      waste: 18,
+      color: "#f59e0b",
+    },
+    { name: "Miso Soup", sales: 42, margin: 72, waste: 42, color: "#10b981" },
+    {
+      name: "Green Tea Ice Cream",
+      sales: 68,
+      margin: 81,
+      waste: 8,
+      color: "#8b5cf6",
+    },
+    {
+      name: "Spicy Karaage",
+      sales: 78,
+      margin: 57,
+      waste: 12,
+      color: "#e11d48",
     },
   ];
 
@@ -450,6 +485,145 @@ export const Dashboard = ({ theme = "light" }: DashboardProps) => {
           </div>
         </Card>
       </div>
+
+      <Card theme={theme} className="flex flex-col gap-5">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-500">
+              Decision view
+            </p>
+            <h3
+              className={`mt-1 text-xl font-semibold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+            >
+              Menu Profitability Matrix
+            </h3>
+            <p className="mt-1 text-sm text-slate-400">
+              Find dishes worth promoting, optimizing, or reviewing.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 text-[10px] text-slate-400">
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" /> High
+              margin
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-amber-500" /> Review
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.35fr_0.65fr]">
+          <div
+            className={`h-80 rounded-[22px] border p-3 ${
+              isDark
+                ? "border-slate-700 bg-slate-950/70"
+                : "border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100"
+            }`}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <ScatterChart
+                margin={{ top: 12, right: 18, bottom: 12, left: 0 }}
+              >
+                <CartesianGrid
+                  stroke={isDark ? "#334155" : "#e2e8f0"}
+                  strokeDasharray="3 3"
+                />
+                <XAxis
+                  type="number"
+                  dataKey="sales"
+                  name="Sales index"
+                  domain={[0, 100]}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: isDark ? "#94a3b8" : "#64748b", fontSize: 11 }}
+                  label={{
+                    value: "Sales volume",
+                    position: "insideBottom",
+                    offset: -5,
+                    fill: isDark ? "#94a3b8" : "#64748b",
+                    fontSize: 11,
+                  }}
+                />
+                <YAxis
+                  type="number"
+                  dataKey="margin"
+                  name="Margin"
+                  domain={[0, 100]}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: isDark ? "#94a3b8" : "#64748b", fontSize: 11 }}
+                  label={{
+                    value: "Margin %",
+                    angle: -90,
+                    position: "insideLeft",
+                    fill: isDark ? "#94a3b8" : "#64748b",
+                    fontSize: 11,
+                  }}
+                />
+                <ZAxis
+                  type="number"
+                  dataKey="waste"
+                  range={[80, 420]}
+                  name="Waste units"
+                />
+                <Tooltip
+                  cursor={{ strokeDasharray: "4 4" }}
+                  contentStyle={{
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    border: `1px solid ${isDark ? "#334155" : "#e2e8f0"}`,
+                    borderRadius: "12px",
+                    color: isDark ? "#f8fafc" : "#0f172a",
+                  }}
+                  formatter={(value: number, name: string) => [
+                    name === "Margin" ? `${value}%` : value,
+                    name,
+                  ]}
+                  labelFormatter={(label) => String(label)}
+                />
+                <Scatter data={profitabilityData} name="Menu items">
+                  {profitabilityData.map((item) => (
+                    <Cell key={item.name} fill={item.color} />
+                  ))}
+                </Scatter>
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="grid grid-cols-[1fr_auto_auto] gap-3 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+              <span>Menu item</span>
+              <span>Margin</span>
+              <span>Waste</span>
+            </div>
+            {profitabilityData.map((item) => (
+              <div
+                key={item.name}
+                className={`grid grid-cols-[1fr_auto_auto] items-center gap-3 rounded-2xl border px-3 py-3 text-xs ${
+                  isDark
+                    ? "border-slate-700 bg-slate-800/60"
+                    : "border-slate-200 bg-slate-50"
+                }`}
+              >
+                <span
+                  className={`truncate font-medium ${isDark ? "text-slate-200" : "text-slate-700"}`}
+                >
+                  {item.name}
+                </span>
+                <span className="font-semibold text-emerald-500">
+                  {item.margin}%
+                </span>
+                <span className="font-semibold text-rose-500">
+                  {item.waste}
+                </span>
+              </div>
+            ))}
+            <p className="mt-2 text-[11px] leading-5 text-slate-400">
+              Bubble size represents leftover units. Prioritize items high on
+              the chart and small in size.
+            </p>
+          </div>
+        </div>
+      </Card>
 
       <Card theme={theme} className="flex flex-col gap-5">
         <div className="flex flex-wrap items-end justify-between gap-3">

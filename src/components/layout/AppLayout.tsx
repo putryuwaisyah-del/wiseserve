@@ -15,6 +15,7 @@ interface AppLayoutProps {
   setTheme: Dispatch<SetStateAction<Theme>>;
   language: Language;
   setLanguage: Dispatch<SetStateAction<Language>>;
+  companyName: string;
 }
 
 export const AppLayout = ({
@@ -26,6 +27,7 @@ export const AppLayout = ({
   setTheme,
   language,
   setLanguage,
+  companyName,
 }: AppLayoutProps) => {
   const isDark = theme === "dark";
 
@@ -42,6 +44,7 @@ export const AppLayout = ({
         setActiveTab={setActiveTab}
         theme={theme}
         language={language}
+        companyName={companyName}
       />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header
@@ -50,6 +53,7 @@ export const AppLayout = ({
           onThemeToggle={() => setTheme(isDark ? "light" : "dark")}
           language={language}
           setLanguage={setLanguage}
+          companyName={companyName}
         />
         <main
           className={`flex-1 overflow-y-auto p-6 md:p-8 ${isDark ? "bg-slate-950/40" : "bg-transparent"}`}

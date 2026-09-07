@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import { BrandMark } from "../ui/BrandMark";
 
 type Theme = "light" | "dark";
 type Language = "en" | "bm";
@@ -9,6 +10,7 @@ interface SidebarProps {
   setActiveTab: Dispatch<SetStateAction<Tab>>;
   theme?: Theme;
   language?: Language;
+  companyName: string;
 }
 
 export const Sidebar = ({
@@ -16,6 +18,7 @@ export const Sidebar = ({
   setActiveTab,
   theme = "light",
   language = "en",
+  companyName,
 }: SidebarProps) => {
   const isDark = theme === "dark";
   const labels: Record<Language, Record<Tab, string>> = {
@@ -56,9 +59,7 @@ export const Sidebar = ({
     >
       <div>
         <div className="flex items-center gap-3 px-2 mb-8">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1d74f5] to-[#0f172a] flex items-center justify-center text-xl shadow-[0_12px_24px_rgba(29,116,245,0.2)]">
-            🍃
-          </div>
+          <BrandMark />
           <div>
             <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">
               F&B
@@ -66,9 +67,27 @@ export const Sidebar = ({
             <span
               className={`font-bold text-xl tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
             >
-              EcoBite
+              WiseServe
             </span>
           </div>
+        </div>
+
+        <div
+          className={`mb-6 rounded-2xl border px-3 py-2.5 ${
+            isDark
+              ? "border-slate-700 bg-slate-900/70"
+              : "border-[#d9e4f2] bg-white/70"
+          }`}
+        >
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+            {language === "bm" ? "Ruang kerja" : "Current workspace"}
+          </p>
+          <p
+            className={`mt-1 truncate text-sm font-semibold ${isDark ? "text-slate-100" : "text-slate-800"}`}
+            title={companyName}
+          >
+            {companyName}
+          </p>
         </div>
 
         <nav className="flex flex-col gap-2" aria-label="Main navigation">
@@ -129,16 +148,16 @@ export const Sidebar = ({
         }`}
       >
         <div className="flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-gradient-to-br from-[#1d74f5] to-[#0f172a] text-sm text-white">
-            🍃
-          </span>
+          <BrandMark compact />
           <div>
             <p
               className={`text-xs font-semibold ${isDark ? "text-slate-100" : "text-slate-800"}`}
             >
-              EcoBite
+              WiseServe
             </p>
-            <p className="text-[10px] text-slate-400">Smarter kitchens, less waste</p>
+            <p className="text-[10px] text-slate-400">
+              Smarter kitchens, less waste
+            </p>
           </div>
         </div>
         <div className="mt-3 flex items-center justify-between border-t border-slate-200/60 pt-3 text-[10px] text-slate-400 dark:border-slate-700">

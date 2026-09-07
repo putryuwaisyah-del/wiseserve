@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Login } from "./components/pages/Login";
 import { Dashboard } from "./components/pages/Dashboard";
 import { DailyLog } from "./components/pages/DailyLog";
 import { MenuManager } from "./components/pages/MenuManager";
 import { AboutUs, ContactUs } from "./components/pages/InfoPages";
+import { DashboardSkeleton } from "./components/pages/DashboardSkeleton";
 
 type Theme = "light" | "dark";
 type Language = "en" | "bm";
@@ -21,6 +22,10 @@ interface Translations {
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(
+    "Fry & Fire - Central Outlet",
+  );
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
   const [theme, setTheme] = useState<Theme>("light");
   const [language, setLanguage] = useState<Language>("en");
@@ -31,7 +36,7 @@ export default function App() {
         dashboard: "Analytics Dashboard",
         dailylog: "Daily Operational Log",
         menu: "Menu Management",
-        about: "About EcoBite",
+        about: "About WiseServe",
         contact: "Contact Support",
       },
       sidebar: {
@@ -51,7 +56,7 @@ export default function App() {
         dashboard: "Papan Pemuka Analitik",
         dailylog: "Log Operasi Harian",
         menu: "Pengurusan Menu",
-        about: "Tentang EcoBite",
+        about: "Tentang WiseServe",
         contact: "Hubungi Sokongan",
       },
       sidebar: {
@@ -70,10 +75,28 @@ export default function App() {
 
   const t = translations[language];
 
+  useEffect(() => {
+    if (!isAuthenticated || !isLoading) {
+      return;
+    }
+
+    const loadingTimer = window.setTimeout(() => {
+      setIsLoading(false);
+    }, 900);
+
+    return () => window.clearTimeout(loadingTimer);
+  }, [isAuthenticated, isLoading]);
+
+  const handleLogin = (companyName: string) => {
+    setSelectedCompany(companyName);
+    setIsAuthenticated(true);
+    setIsLoading(true);
+  };
+
   if (!isAuthenticated) {
     return (
       <Login
-        onLogin={() => setIsAuthenticated(true)}
+        onLogin={handleLogin}
         theme={theme}
         setTheme={setTheme}
         language={language}
@@ -91,18 +114,24 @@ export default function App() {
       setTheme={setTheme}
       language={language}
       setLanguage={setLanguage}
+      companyName={selectedCompany}
     >
-      {activeTab === "dashboard" && (
+      {isLoading && activeTab === "dashboard" && (
+        <DashboardSkeleton theme={theme} />
+      )}
+      {!isLoading && activeTab === "dashboard" && (
         <Dashboard theme={theme} language={language} />
       )}
-      {activeTab === "dailylog" && (
+      {!isLoading && activeTab === "dailylog" && (
         <DailyLog theme={theme} language={language} />
       )}
-      {activeTab === "menu" && (
+      {!isLoading && activeTab === "menu" && (
         <MenuManager theme={theme} language={language} />
       )}
-      {activeTab === "about" && <AboutUs theme={theme} language={language} />}
-      {activeTab === "contact" && (
+      {!isLoading && activeTab === "about" && (
+        <AboutUs theme={theme} language={language} />
+      )}
+      {!isLoading && activeTab === "contact" && (
         <ContactUs theme={theme} language={language} />
       )}
     </AppLayout>

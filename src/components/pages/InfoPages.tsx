@@ -59,7 +59,7 @@ export const AboutUs = ({
       >
         <div className="relative z-10 max-w-2xl">
           <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-blue-500">
-            EcoBite F&B Intelligence
+            WiseServe F&B Intelligence
           </p>
           <h2
             className={`mt-3 text-3xl font-bold tracking-tight md:text-4xl ${isDark ? "text-white" : "text-slate-900"}`}
@@ -69,9 +69,9 @@ export const AboutUs = ({
           <p
             className={`mt-4 max-w-xl text-sm leading-6 ${isDark ? "text-slate-300" : "text-slate-600"}`}
           >
-            EcoBite gives food and beverage teams a clear view of what is being
-            prepared, sold, and wasted so every shift can operate with more
-            confidence.
+            WiseServe gives food and beverage teams a clear view of what is
+            being prepared, sold, and wasted so every shift can operate with
+            more confidence.
           </p>
         </div>
         <div className="pointer-events-none absolute -right-12 -top-16 h-56 w-56 rounded-full border-[28px] border-emerald-400/20" />
@@ -110,7 +110,7 @@ export const AboutUs = ({
             Make sustainability measurable.
           </h3>
           <p className="mt-3 text-sm leading-6 text-slate-400">
-            From the kitchen floor to the management report, EcoBite connects
+            From the kitchen floor to the management report, WiseServe connects
             daily actions with financial and environmental outcomes.
           </p>
         </div>
@@ -153,7 +153,7 @@ export const ContactUs = ({
       <Card theme={theme} className="flex flex-col justify-between gap-8">
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-500">
-            {isBM ? "Sokongan EcoBite" : "EcoBite support"}
+            {isBM ? "Sokongan WiseServe" : "WiseServe support"}
           </p>
           <h2
             className={`mt-3 text-3xl font-bold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
@@ -176,7 +176,7 @@ export const ContactUs = ({
             <p
               className={`mt-1 font-medium ${isDark ? "text-slate-200" : "text-slate-700"}`}
             >
-              hello@ecobite.com
+              hello@wiseserve.com
             </p>
           </div>
           <div
@@ -206,7 +206,7 @@ export const ContactUs = ({
               Message received
             </h3>
             <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">
-              Thanks for reaching out. The EcoBite team will reply within one
+              Thanks for reaching out. The WiseServe team will reply within one
               business day.
             </p>
             <Button
