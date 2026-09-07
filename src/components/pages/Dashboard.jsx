@@ -1,54 +1,125 @@
 // src/pages/Dashboard.jsx
 import { Card } from "../ui/Card";
 
-export const Dashboard = () => {
-  // Static placeholder metrics for presentation
+export const Dashboard = ({ theme = "light" }) => {
+  const isDark = theme === "dark";
+
   const mockMetrics = [
-    { label: "Weekly Revenue", value: "$12,450", change: "+4.2%" },
-    { label: "Food Prepared", value: "1,240 units", change: "This Week" },
-    { label: "Food Wasted", value: "112 units", change: "-1.8% vs last week" },
-    { label: "Waste Value", value: "$420.00", change: "3.3% of revenue" },
+    {
+      label: "Weekly Revenue",
+      value: "$12,450",
+      change: "+4.2%",
+      tone: "blue",
+    },
+    {
+      label: "Food Prepared",
+      value: "1,240 units",
+      change: "This Week",
+      tone: "green",
+    },
+    {
+      label: "Food Wasted",
+      value: "112 units",
+      change: "-1.8% vs last week",
+      tone: "amber",
+    },
+    {
+      label: "Waste Value",
+      value: "$420.00",
+      change: "3.3% of revenue",
+      tone: "red",
+    },
   ];
+
+  const toneClasses = {
+    blue: isDark ? "bg-blue-500/10 text-blue-300" : "bg-blue-50 text-blue-600",
+    green: isDark
+      ? "bg-emerald-500/10 text-emerald-300"
+      : "bg-emerald-50 text-emerald-600",
+    amber: isDark
+      ? "bg-amber-500/10 text-amber-300"
+      : "bg-amber-50 text-amber-600",
+    red: isDark ? "bg-rose-500/10 text-rose-300" : "bg-rose-50 text-rose-600",
+  };
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {mockMetrics.map((m, idx) => (
-          <Card key={idx} className="flex flex-col gap-1">
-            <span className="text-xs font-semibold text-[#86868B] tracking-tight">{m.label}</span>
-            <span className="text-2xl font-bold text-[#1D1D1F] tracking-tight">{m.value}</span>
-            <span className="text-xs text-[#0071E3] font-medium mt-1">{m.change}</span>
+          <Card key={idx} theme={theme} className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span
+                className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${isDark ? "text-slate-400" : "text-slate-400"}`}
+              >
+                {m.label}
+              </span>
+              <span
+                className={`rounded-full px-2 py-1 text-[10px] font-semibold ${toneClasses[m.tone]}`}
+              >
+                {m.change}
+              </span>
+            </div>
+            <span
+              className={`text-3xl font-bold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+            >
+              {m.value}
+            </span>
           </Card>
         ))}
       </div>
 
-      {/* Analytics Visual Containers */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 flex flex-col gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <Card theme={theme} className="xl:col-span-2 flex flex-col gap-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-[#1D1D1F] tracking-tight">Daily Sales vs. Waste Volume</h3>
-            <span className="text-xs text-[#86868B]">Mon - Sun</span>
+            <h3
+              className={`font-semibold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+            >
+              Daily Sales vs. Waste Volume
+            </h3>
+            <span className="text-xs text-slate-400">Mon - Sun</span>
           </div>
-          <div className="h-64 bg-[#F5F5F7] rounded-[20px] flex items-center justify-center text-[#86868B] text-sm font-medium border border-dashed border-black/[0.08]">
+          <div
+            className={`h-72 rounded-[22px] border border-dashed flex items-center justify-center text-sm font-medium ${
+              isDark
+                ? "bg-slate-950/70 border-slate-700 text-slate-400"
+                : "bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200 text-slate-400"
+            }`}
+          >
             [ Sales & Waste Bar Chart Component Ready ]
           </div>
         </Card>
 
-        <Card className="flex flex-col gap-4">
-          <h3 className="font-semibold text-[#1D1D1F] tracking-tight">Top Wasted Items</h3>
+        <Card theme={theme} className="flex flex-col gap-4">
+          <h3
+            className={`font-semibold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+          >
+            Top Wasted Items
+          </h3>
           <div className="flex flex-col gap-3">
             {[
               { name: "Chicken Teriyaki Bento", qty: "34 units", loss: "$170" },
               { name: "Salmon Sashimi Plate", qty: "18 units", loss: "$144" },
               { name: "Miso Soup Portion", qty: "42 units", loss: "$42" },
             ].map((item, i) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-[#F5F5F7] rounded-[16px]">
+              <div
+                key={i}
+                className={`flex items-center justify-between p-3 rounded-2xl border ${
+                  isDark
+                    ? "bg-slate-800 border-slate-700"
+                    : "bg-slate-50 border-slate-200"
+                }`}
+              >
                 <div>
-                  <p className="text-sm font-medium text-[#1D1D1F]">{item.name}</p>
-                  <p className="text-xs text-[#86868B]">{item.qty} leftover</p>
+                  <p
+                    className={`text-sm font-medium ${isDark ? "text-slate-100" : "text-slate-800"}`}
+                  >
+                    {item.name}
+                  </p>
+                  <p className="text-xs text-slate-400">{item.qty} leftover</p>
                 </div>
-                <span className="text-sm font-semibold text-red-500">-{item.loss}</span>
+                <span className="text-sm font-semibold text-rose-500">
+                  -{item.loss}
+                </span>
               </div>
             ))}
           </div>

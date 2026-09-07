@@ -1,12 +1,36 @@
 // src/components/ui/Modal.jsx
-export const Modal = ({ isOpen, onClose, title, children }) => {
+export const Modal = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  theme = "light",
+}) => {
   if (!isOpen) return null;
+
+  const isDark = theme === "dark";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-md p-4">
-      <div className="bg-white rounded-[20px] border border-black/[0.05] shadow-2xl w-full max-w-md p-6">
+      <div
+        className={`rounded-[20px] border shadow-2xl w-full max-w-md p-6 transition-colors duration-300 ${
+          isDark
+            ? "bg-slate-900 border-slate-700 text-slate-100"
+            : "bg-white border-black/[0.05] text-slate-800"
+        }`}
+      >
         <div className="flex justify-between items-center mb-5">
-          <h3 className="text-lg font-semibold text-[#1D1D1F] tracking-tight">{title}</h3>
-          <button onClick={onClose} className="text-[#86868B] hover:text-[#1D1D1F] p-1.5 rounded-full hover:bg-[#F5F5F7] transition-colors">✕</button>
+          <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
+          <button
+            onClick={onClose}
+            className={`p-1.5 rounded-full transition-colors ${
+              isDark
+                ? "text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+                : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+            }`}
+          >
+            ✕
+          </button>
         </div>
         {children}
       </div>

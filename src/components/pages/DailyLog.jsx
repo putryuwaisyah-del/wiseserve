@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 
-export const DailyLog = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+export const DailyLog = ({ theme = "light" }) => {
+  const isDark = theme === "dark";
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
 
-  // Static operational state rows
   const mockItems = [
     { id: 1, name: "Chicken Teriyaki Bento", price: "$12.50" },
     { id: 2, name: "Salmon Sashimi Plate", price: "$16.00" },
@@ -17,39 +19,71 @@ export const DailyLog = () => {
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap justify-between items-center gap-4">
         <div>
-          <p className="text-sm text-[#86868B]">Record daily operational output and remaining stock.</p>
+          <p
+            className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+          >
+            Record daily operational output and remaining stock.
+          </p>
         </div>
+
         <div className="flex items-center gap-3">
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="bg-white border border-black/[0.05] rounded-[20px] px-4 py-2 text-sm text-[#1D1D1F] outline-none shadow-sm"
+            className={`border rounded-2xl px-4 py-2 text-sm outline-none shadow-sm ${
+              isDark
+                ? "bg-slate-800 border-slate-700 text-slate-100"
+                : "bg-white border-slate-200 text-slate-700"
+            }`}
           />
-          <Button>Save Log Entry</Button>
+          <Button theme={theme}>Save Log Entry</Button>
         </div>
       </div>
 
-      <Card className="p-0 overflow-hidden">
+      <Card theme={theme} className="p-0 overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-black/[0.05] bg-[#F5F5F7]/50 text-xs font-semibold text-[#86868B]">
+            <tr
+              className={`border-b text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                isDark
+                  ? "border-slate-700 bg-slate-800/80 text-slate-400"
+                  : "border-slate-200 bg-slate-50/80 text-slate-400"
+              }`}
+            >
               <th className="py-4 px-6">Menu Item</th>
               <th className="py-4 px-6 w-36">Qty Prepared</th>
               <th className="py-4 px-6 w-36">Qty Sold</th>
               <th className="py-4 px-6 w-36">Qty Leftover</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-black/[0.03] text-sm">
+          <tbody
+            className={`divide-y text-sm ${isDark ? "divide-slate-700" : "divide-slate-200"}`}
+          >
             {mockItems.map((item) => (
-              <tr key={item.id}>
-                <td className="py-4 px-6 font-medium text-[#1D1D1F]">{item.name}</td>
+              <tr
+                key={item.id}
+                className={
+                  isDark
+                    ? "hover:bg-slate-800/60 transition-colors"
+                    : "hover:bg-slate-50/80 transition-colors"
+                }
+              >
+                <td
+                  className={`py-4 px-6 font-medium ${isDark ? "text-slate-100" : "text-slate-800"}`}
+                >
+                  {item.name}
+                </td>
                 <td className="py-3 px-6">
                   <input
                     type="number"
                     min="0"
                     placeholder="0"
-                    className="w-full bg-[#F5F5F7] rounded-[12px] px-3 py-1.5 text-sm outline-none focus:bg-white focus:ring-1 focus:ring-[#0071E3]"
+                    className={`w-full rounded-xl px-3 py-2 text-sm outline-none border ${
+                      isDark
+                        ? "bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-400 focus:bg-slate-900"
+                        : "bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500 focus:bg-white"
+                    }`}
                   />
                 </td>
                 <td className="py-3 px-6">
@@ -57,7 +91,11 @@ export const DailyLog = () => {
                     type="number"
                     min="0"
                     placeholder="0"
-                    className="w-full bg-[#F5F5F7] rounded-[12px] px-3 py-1.5 text-sm outline-none focus:bg-white focus:ring-1 focus:ring-[#0071E3]"
+                    className={`w-full rounded-xl px-3 py-2 text-sm outline-none border ${
+                      isDark
+                        ? "bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-400 focus:bg-slate-900"
+                        : "bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500 focus:bg-white"
+                    }`}
                   />
                 </td>
                 <td className="py-3 px-6">
@@ -65,7 +103,11 @@ export const DailyLog = () => {
                     type="number"
                     min="0"
                     placeholder="0"
-                    className="w-full bg-[#F5F5F7] rounded-[12px] px-3 py-1.5 text-sm outline-none focus:bg-white focus:ring-1 focus:ring-[#0071E3]"
+                    className={`w-full rounded-xl px-3 py-2 text-sm outline-none border ${
+                      isDark
+                        ? "bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-400 focus:bg-slate-900"
+                        : "bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500 focus:bg-white"
+                    }`}
                   />
                 </td>
               </tr>
