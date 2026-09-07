@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Login } from "./components/pages/Login";
 import { Dashboard } from "./components/pages/Dashboard";
@@ -17,13 +16,6 @@ interface Translations {
     operations: string;
     user: string;
   };
-}
-
-interface LanguageControls {
-  theme: Theme;
-  setTheme: Dispatch<SetStateAction<Theme>>;
-  language: Language;
-  setLanguage: Dispatch<SetStateAction<Language>>;
 }
 
 export default function App() {

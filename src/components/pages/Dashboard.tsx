@@ -6,6 +6,16 @@ interface DashboardProps {
 }
 
 import { Card } from "../ui/Card";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export const Dashboard = ({ theme = "light" }: DashboardProps) => {
   const isDark = theme === "dark";
@@ -48,6 +58,16 @@ export const Dashboard = ({ theme = "light" }: DashboardProps) => {
     red: isDark ? "bg-rose-500/10 text-rose-300" : "bg-rose-50 text-rose-600",
   };
 
+  const weeklyData = [
+    { day: "Mon", sales: 1800, waste: 120 },
+    { day: "Tue", sales: 2100, waste: 145 },
+    { day: "Wed", sales: 1650, waste: 90 },
+    { day: "Thu", sales: 2400, waste: 160 },
+    { day: "Fri", sales: 2800, waste: 185 },
+    { day: "Sat", sales: 3100, waste: 210 },
+    { day: "Sun", sales: 2600, waste: 150 },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -85,13 +105,68 @@ export const Dashboard = ({ theme = "light" }: DashboardProps) => {
             <span className="text-xs text-slate-400">Mon - Sun</span>
           </div>
           <div
-            className={`h-72 rounded-[22px] border border-dashed flex items-center justify-center text-sm font-medium ${
+            className={`h-72 rounded-[22px] border p-3 ${
               isDark
-                ? "bg-slate-950/70 border-slate-700 text-slate-400"
-                : "bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200 text-slate-400"
+                ? "bg-slate-950/70 border-slate-700"
+                : "bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200"
             }`}
           >
-            [ Sales & Waste Bar Chart Component Ready ]
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={weeklyData}
+                margin={{ top: 8, right: 8, left: -16, bottom: 0 }}
+              >
+                <CartesianGrid
+                  stroke={isDark ? "#334155" : "#e2e8f0"}
+                  strokeDasharray="3 3"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="day"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: isDark ? "#94a3b8" : "#64748b", fontSize: 11 }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: isDark ? "#94a3b8" : "#64748b", fontSize: 11 }}
+                  tickFormatter={(value: number) => `$${value / 1000}k`}
+                />
+                <Tooltip
+                  cursor={{ fill: isDark ? "#1e293b" : "#f1f5f9" }}
+                  contentStyle={{
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    border: `1px solid ${isDark ? "#334155" : "#e2e8f0"}`,
+                    borderRadius: "12px",
+                    color: isDark ? "#f8fafc" : "#0f172a",
+                  }}
+                  formatter={(value: number, name: string) => [
+                    `$${value.toLocaleString()}`,
+                    name === "sales" ? "Sales" : "Waste",
+                  ]}
+                />
+                <Legend
+                  iconType="circle"
+                  wrapperStyle={{
+                    color: isDark ? "#cbd5e1" : "#475569",
+                    fontSize: 12,
+                  }}
+                />
+                <Bar
+                  dataKey="sales"
+                  name="Sales"
+                  fill={isDark ? "#93c5fd" : "#2563eb"}
+                  radius={[5, 5, 0, 0]}
+                />
+                <Bar
+                  dataKey="waste"
+                  name="Waste"
+                  fill={isDark ? "#fda4af" : "#e11d48"}
+                  radius={[5, 5, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </Card>
 

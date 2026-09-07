@@ -34,7 +34,9 @@ export const DailyLog = ({ theme = "light" }: DailyLogProps) => {
           <input
             type="date"
             value={selectedDate}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectedDate(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSelectedDate(e.target.value)
+            }
             className={`border rounded-2xl px-4 py-2 text-sm outline-none shadow-sm ${
               isDark
                 ? "bg-slate-800 border-slate-700 text-slate-100"
