@@ -4,10 +4,11 @@ import { Login } from "./components/pages/Login";
 import { Dashboard } from "./components/pages/Dashboard";
 import { DailyLog } from "./components/pages/DailyLog";
 import { MenuManager } from "./components/pages/MenuManager";
+import { AboutUs, ContactUs } from "./components/pages/InfoPages";
 
 type Theme = "light" | "dark";
 type Language = "en" | "bm";
-type Tab = "dashboard" | "dailylog" | "menu";
+type Tab = "dashboard" | "dailylog" | "menu" | "about" | "contact";
 
 interface Translations {
   pageTitles: Record<Tab, string>;
@@ -30,11 +31,15 @@ export default function App() {
         dashboard: "Analytics Dashboard",
         dailylog: "Daily Operational Log",
         menu: "Menu Management",
+        about: "About EcoBite",
+        contact: "Contact Support",
       },
       sidebar: {
         dashboard: "Analytics",
         dailylog: "Daily Log",
         menu: "Menu Manager",
+        about: "About Us",
+        contact: "Contact Us",
       },
       header: {
         operations: "Operations",
@@ -46,11 +51,15 @@ export default function App() {
         dashboard: "Papan Pemuka Analitik",
         dailylog: "Log Operasi Harian",
         menu: "Pengurusan Menu",
+        about: "Tentang EcoBite",
+        contact: "Hubungi Sokongan",
       },
       sidebar: {
         dashboard: "Analitik",
         dailylog: "Log Harian",
         menu: "Pengurus Menu",
+        about: "Tentang Kami",
+        contact: "Hubungi Kami",
       },
       header: {
         operations: "Operasi",
@@ -82,7 +91,6 @@ export default function App() {
       setTheme={setTheme}
       language={language}
       setLanguage={setLanguage}
-      translations={t}
     >
       {activeTab === "dashboard" && (
         <Dashboard theme={theme} language={language} />
@@ -92,6 +100,10 @@ export default function App() {
       )}
       {activeTab === "menu" && (
         <MenuManager theme={theme} language={language} />
+      )}
+      {activeTab === "about" && <AboutUs theme={theme} language={language} />}
+      {activeTab === "contact" && (
+        <ContactUs theme={theme} language={language} />
       )}
     </AppLayout>
   );

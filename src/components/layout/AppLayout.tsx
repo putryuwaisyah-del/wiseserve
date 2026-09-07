@@ -3,7 +3,8 @@ import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 
 type Theme = "light" | "dark";
-type Tab = "dashboard" | "dailylog" | "menu";
+type Tab = "dashboard" | "dailylog" | "menu" | "about" | "contact";
+type Language = "en" | "bm";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -12,6 +13,8 @@ interface AppLayoutProps {
   title: string;
   theme: Theme;
   setTheme: Dispatch<SetStateAction<Theme>>;
+  language: Language;
+  setLanguage: Dispatch<SetStateAction<Language>>;
 }
 
 export const AppLayout = ({
@@ -21,6 +24,8 @@ export const AppLayout = ({
   title,
   theme,
   setTheme,
+  language,
+  setLanguage,
 }: AppLayoutProps) => {
   const isDark = theme === "dark";
 
@@ -36,12 +41,15 @@ export const AppLayout = ({
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         theme={theme}
+        language={language}
       />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header
           title={title}
           theme={theme}
           onThemeToggle={() => setTheme(isDark ? "light" : "dark")}
+          language={language}
+          setLanguage={setLanguage}
         />
         <main
           className={`flex-1 overflow-y-auto p-6 md:p-8 ${isDark ? "bg-slate-950/40" : "bg-transparent"}`}

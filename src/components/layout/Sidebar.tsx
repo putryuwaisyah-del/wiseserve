@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from "react";
 
 type Theme = "light" | "dark";
 type Language = "en" | "bm";
-type Tab = "dashboard" | "dailylog" | "menu";
+type Tab = "dashboard" | "dailylog" | "menu" | "about" | "contact";
 
 interface SidebarProps {
   activeTab: Tab;
@@ -23,11 +23,15 @@ export const Sidebar = ({
       dashboard: "Analytics",
       dailylog: "Daily Log",
       menu: "Menu Manager",
+      about: "About Us",
+      contact: "Contact Us",
     },
     bm: {
       dashboard: "Analitik",
       dailylog: "Log Harian",
       menu: "Pengurus Menu",
+      about: "Tentang Kami",
+      contact: "Hubungi Kami",
     },
   };
 
@@ -35,6 +39,11 @@ export const Sidebar = ({
     { id: "dashboard", label: labels[language].dashboard },
     { id: "dailylog", label: labels[language].dailylog },
     { id: "menu", label: labels[language].menu },
+  ];
+
+  const supportItems: { id: Tab; label: string }[] = [
+    { id: "about", label: labels[language].about },
+    { id: "contact", label: labels[language].contact },
   ];
 
   return (
@@ -62,7 +71,7 @@ export const Sidebar = ({
           </div>
         </div>
 
-        <nav className="flex flex-col gap-2">
+        <nav className="flex flex-col gap-2" aria-label="Main navigation">
           {menuItems.map((item) => (
             <button
               key={item.id}
@@ -81,17 +90,62 @@ export const Sidebar = ({
             </button>
           ))}
         </nav>
+
+        <div className="mt-8">
+          <p className="mb-2 px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+            {language === "bm" ? "Maklumat" : "Information"}
+          </p>
+          <nav
+            className="flex flex-col gap-2"
+            aria-label="Information navigation"
+          >
+            {supportItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition-all duration-200 ${
+                  activeTab === item.id
+                    ? isDark
+                      ? "bg-slate-100 text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.4)]"
+                      : "bg-slate-900 text-white shadow-[0_12px_30px_rgba(15,23,42,0.18)]"
+                    : isDark
+                      ? "text-slate-400 hover:bg-slate-800/90 hover:text-slate-100"
+                      : "text-slate-600 hover:bg-white/80 hover:text-slate-900"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        </div>
       </div>
 
-      <div
-        className={`rounded-2xl px-3 py-2 text-xs border ${
+      <footer
+        className={`rounded-2xl border p-4 ${
           isDark
-            ? "bg-slate-900/80 text-slate-300 border-slate-700"
-            : "bg-white/70 text-slate-500 border-[#d9e4f2]"
+            ? "border-slate-700 bg-slate-900/80"
+            : "border-[#d9e4f2] bg-white/70"
         }`}
       >
-        F&B Waste Prevention v1.0
-      </div>
+        <div className="flex items-center gap-2">
+          <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-gradient-to-br from-[#1d74f5] to-[#0f172a] text-sm text-white">
+            🍃
+          </span>
+          <div>
+            <p
+              className={`text-xs font-semibold ${isDark ? "text-slate-100" : "text-slate-800"}`}
+            >
+              EcoBite
+            </p>
+            <p className="text-[10px] text-slate-400">Smarter kitchens, less waste</p>
+          </div>
+        </div>
+        <div className="mt-3 flex items-center justify-between border-t border-slate-200/60 pt-3 text-[10px] text-slate-400 dark:border-slate-700">
+          <span>F&B Waste Prevention</span>
+          <span>v1.0</span>
+        </div>
+      </footer>
     </aside>
   );
 };
