@@ -1,4 +1,17 @@
-// src/components/layout/Header.jsx
+import type { Dispatch, SetStateAction } from "react";
+
+type Theme = "light" | "dark";
+type Language = "en" | "bm";
+
+interface HeaderProps {
+  title: string;
+  user?: string;
+  theme?: Theme;
+  onThemeToggle: () => void;
+  language?: Language;
+  setLanguage?: Dispatch<SetStateAction<Language>>;
+}
+
 export const Header = ({
   title,
   user = "Store Manager",
@@ -6,7 +19,7 @@ export const Header = ({
   onThemeToggle,
   language = "en",
   setLanguage,
-}) => {
+}: HeaderProps) => {
   const isDark = theme === "dark";
   const isBM = language === "bm";
 
@@ -40,7 +53,7 @@ export const Header = ({
           {[
             { code: "en", label: "ENG" },
             { code: "bm", label: "BM" },
-          ].map((option) => (
+          ].map((option: { code: Language; label: string }) => (
             <button
               key={option.code}
               type="button"

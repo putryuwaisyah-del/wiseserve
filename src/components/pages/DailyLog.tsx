@@ -1,9 +1,13 @@
-// src/pages/DailyLog.jsx
 import { useState } from "react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 
-export const DailyLog = ({ theme = "light" }) => {
+interface DailyLogProps {
+  theme?: "light" | "dark";
+  language?: "en" | "bm";
+}
+
+export const DailyLog = ({ theme = "light" }: DailyLogProps) => {
   const isDark = theme === "dark";
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0],
@@ -30,7 +34,7 @@ export const DailyLog = ({ theme = "light" }) => {
           <input
             type="date"
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectedDate(e.target.value)}
             className={`border rounded-2xl px-4 py-2 text-sm outline-none shadow-sm ${
               isDark
                 ? "bg-slate-800 border-slate-700 text-slate-100"

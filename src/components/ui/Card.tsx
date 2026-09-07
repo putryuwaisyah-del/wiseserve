@@ -1,5 +1,18 @@
-// src/components/ui/Card.jsx
-export const Card = ({ children, className = "", theme = "light" }) => {
+import type { ReactNode } from "react";
+
+type Theme = "light" | "dark";
+
+interface CardProps {
+  children: ReactNode;
+  className?: string;
+  theme?: Theme;
+}
+
+export const Card = ({
+  children,
+  className = "",
+  theme = "light",
+}: CardProps) => {
   const isDark = theme === "dark";
 
   return (

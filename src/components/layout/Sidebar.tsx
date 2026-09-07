@@ -1,12 +1,24 @@
-// src/components/layout/Sidebar.jsx
+import type { Dispatch, SetStateAction } from "react";
+
+type Theme = "light" | "dark";
+type Language = "en" | "bm";
+type Tab = "dashboard" | "dailylog" | "menu";
+
+interface SidebarProps {
+  activeTab: Tab;
+  setActiveTab: Dispatch<SetStateAction<Tab>>;
+  theme?: Theme;
+  language?: Language;
+}
+
 export const Sidebar = ({
   activeTab,
   setActiveTab,
   theme = "light",
   language = "en",
-}) => {
+}: SidebarProps) => {
   const isDark = theme === "dark";
-  const labels = {
+  const labels: Record<Language, Record<Tab, string>> = {
     en: {
       dashboard: "Analytics",
       dailylog: "Daily Log",
@@ -19,7 +31,7 @@ export const Sidebar = ({
     },
   };
 
-  const menuItems = [
+  const menuItems: { id: Tab; label: string }[] = [
     { id: "dashboard", label: labels[language].dashboard },
     { id: "dailylog", label: labels[language].dailylog },
     { id: "menu", label: labels[language].menu },

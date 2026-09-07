@@ -1,11 +1,15 @@
-// src/pages/MenuManager.jsx
 import { useState } from "react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { Modal } from "../ui/Modal";
 
-export const MenuManager = ({ theme = "light" }) => {
+interface MenuManagerProps {
+  theme?: "light" | "dark";
+  language?: "en" | "bm";
+}
+
+export const MenuManager = ({ theme = "light" }: MenuManagerProps) => {
   const isDark = theme === "dark";
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -104,7 +108,7 @@ export const MenuManager = ({ theme = "light" }) => {
       >
         <form
           className="flex flex-col gap-4"
-          onSubmit={(e) => {
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             setIsModalOpen(false);
           }}

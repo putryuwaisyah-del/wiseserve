@@ -1,5 +1,18 @@
-// src/components/ui/Input.jsx
-export const Input = ({ label, className = "", theme = "light", ...props }) => {
+import type { InputHTMLAttributes } from "react";
+
+type Theme = "light" | "dark";
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  theme?: Theme;
+}
+
+export const Input = ({
+  label,
+  className = "",
+  theme = "light",
+  ...props
+}: InputProps) => {
   const isDark = theme === "dark";
 
   return (

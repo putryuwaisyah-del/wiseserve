@@ -1,9 +1,17 @@
-// src/pages/Login.jsx
+import type { Dispatch, SetStateAction } from "react";
 import { Card } from "../ui/Card";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 
-export const Login = ({ onLogin, theme = "light", setTheme }) => {
+type Theme = "light" | "dark";
+
+interface LoginProps {
+  onLogin: () => void;
+  theme?: Theme;
+  setTheme: Dispatch<SetStateAction<Theme>>;
+}
+
+export const Login = ({ onLogin, theme = "light", setTheme }: LoginProps) => {
   const isDark = theme === "dark";
 
   return (
@@ -50,7 +58,7 @@ export const Login = ({ onLogin, theme = "light", setTheme }) => {
         </div>
 
         <form
-          onSubmit={(e) => {
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             onLogin();
           }}

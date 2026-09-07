@@ -1,6 +1,18 @@
-// src/components/layout/AppLayout.jsx
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
+
+type Theme = "light" | "dark";
+type Tab = "dashboard" | "dailylog" | "menu";
+
+interface AppLayoutProps {
+  children: ReactNode;
+  activeTab: Tab;
+  setActiveTab: Dispatch<SetStateAction<Tab>>;
+  title: string;
+  theme: Theme;
+  setTheme: Dispatch<SetStateAction<Theme>>;
+}
 
 export const AppLayout = ({
   children,
@@ -9,7 +21,7 @@ export const AppLayout = ({
   title,
   theme,
   setTheme,
-}) => {
+}: AppLayoutProps) => {
   const isDark = theme === "dark";
 
   return (

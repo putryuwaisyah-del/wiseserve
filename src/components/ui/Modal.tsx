@@ -1,11 +1,22 @@
-// src/components/ui/Modal.jsx
+import type { ReactNode } from "react";
+
+type Theme = "light" | "dark";
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: ReactNode;
+  theme?: Theme;
+}
+
 export const Modal = ({
   isOpen,
   onClose,
   title,
   children,
   theme = "light",
-}) => {
+}: ModalProps) => {
   if (!isOpen) return null;
 
   const isDark = theme === "dark";

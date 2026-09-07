@@ -1,14 +1,24 @@
-// src/components/ui/Button.jsx
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+
+type Theme = "light" | "dark";
+type Variant = "primary" | "secondary" | "danger";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  variant?: Variant;
+  theme?: Theme;
+}
+
 export const Button = ({
   children,
   variant = "primary",
   className = "",
   theme = "light",
   ...props
-}) => {
+}: ButtonProps) => {
   const isDark = theme === "dark";
 
-  const variants = {
+  const variants: Record<Variant, string> = {
     primary: isDark
       ? "bg-slate-100 hover:bg-slate-200 text-slate-900 shadow-[0_12px_24px_rgba(15,23,42,0.4)]"
       : "bg-slate-900 hover:bg-slate-800 text-white shadow-[0_12px_24px_rgba(15,23,42,0.18)]",

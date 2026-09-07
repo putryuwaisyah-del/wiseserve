@@ -1,7 +1,13 @@
-// src/pages/Dashboard.jsx
+type Theme = "light" | "dark";
+
+interface DashboardProps {
+  theme?: Theme;
+  language?: "en" | "bm";
+}
+
 import { Card } from "../ui/Card";
 
-export const Dashboard = ({ theme = "light" }) => {
+export const Dashboard = ({ theme = "light" }: DashboardProps) => {
   const isDark = theme === "dark";
 
   const mockMetrics = [
@@ -31,7 +37,7 @@ export const Dashboard = ({ theme = "light" }) => {
     },
   ];
 
-  const toneClasses = {
+  const toneClasses: Record<string, string> = {
     blue: isDark ? "bg-blue-500/10 text-blue-300" : "bg-blue-50 text-blue-600",
     green: isDark
       ? "bg-emerald-500/10 text-emerald-300"

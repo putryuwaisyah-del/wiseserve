@@ -1,18 +1,38 @@
-// src/App.jsx
 import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Login } from "./components/pages/Login";
 import { Dashboard } from "./components/pages/Dashboard";
 import { DailyLog } from "./components/pages/DailyLog";
 import { MenuManager } from "./components/pages/MenuManager";
 
+type Theme = "light" | "dark";
+type Language = "en" | "bm";
+type Tab = "dashboard" | "dailylog" | "menu";
+
+interface Translations {
+  pageTitles: Record<Tab, string>;
+  sidebar: Record<Tab, string>;
+  header: {
+    operations: string;
+    user: string;
+  };
+}
+
+interface LanguageControls {
+  theme: Theme;
+  setTheme: Dispatch<SetStateAction<Theme>>;
+  language: Language;
+  setLanguage: Dispatch<SetStateAction<Language>>;
+}
+
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState("dashboard");
-  const [theme, setTheme] = useState("light");
-  const [language, setLanguage] = useState("en");
+  const [activeTab, setActiveTab] = useState<Tab>("dashboard");
+  const [theme, setTheme] = useState<Theme>("light");
+  const [language, setLanguage] = useState<Language>("en");
 
-  const translations = {
+  const translations: Record<Language, Translations> = {
     en: {
       pageTitles: {
         dashboard: "Analytics Dashboard",
