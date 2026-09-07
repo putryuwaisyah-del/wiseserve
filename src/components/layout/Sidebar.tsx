@@ -41,8 +41,8 @@ export const Sidebar = ({
     <aside
       className={`w-72 h-screen border-r p-5 flex flex-col justify-between shadow-[inset_-1px_0_0_rgba(148,163,184,0.1)] backdrop-blur-xl transition-colors duration-300 ${
         isDark
-          ? "border-slate-800 bg-slate-900/80"
-          : "border-slate-200/80 bg-white/70"
+          ? "border-slate-800 bg-[#0b1324]"
+          : "border-[#d9e4f2] bg-[#edf3fb]"
       }`}
     >
       <div>
@@ -73,8 +73,8 @@ export const Sidebar = ({
                     ? "bg-slate-100 text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.4)]"
                     : "bg-slate-900 text-white shadow-[0_12px_30px_rgba(15,23,42,0.18)]"
                   : isDark
-                    ? "text-slate-400 hover:text-slate-100 hover:bg-slate-800/80"
-                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-100/80"
+                    ? "text-slate-400 hover:text-slate-100 hover:bg-slate-800/90"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white/80"
               }`}
             >
               {item.label}
@@ -86,8 +86,8 @@ export const Sidebar = ({
       <div
         className={`rounded-2xl px-3 py-2 text-xs border ${
           isDark
-            ? "bg-slate-800/80 text-slate-300 border-slate-700"
-            : "bg-slate-100/80 text-slate-500 border-slate-200/80"
+            ? "bg-slate-900/80 text-slate-300 border-slate-700"
+            : "bg-white/70 text-slate-500 border-[#d9e4f2]"
         }`}
       >
         F&B Waste Prevention v1.0

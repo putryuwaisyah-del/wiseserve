@@ -7,10 +7,15 @@ interface DashboardProps {
 
 import { Card } from "../ui/Card";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Legend,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -66,6 +71,69 @@ export const Dashboard = ({ theme = "light" }: DashboardProps) => {
     { day: "Fri", sales: 2800, waste: 185 },
     { day: "Sat", sales: 3100, waste: 210 },
     { day: "Sun", sales: 2600, waste: 150 },
+  ];
+
+  const revenueTrend = [
+    { week: "W1", revenue: 8200, target: 9000 },
+    { week: "W2", revenue: 9600, target: 9200 },
+    { week: "W3", revenue: 9100, target: 9400 },
+    { week: "W4", revenue: 10800, target: 9800 },
+    { week: "W5", revenue: 11600, target: 10200 },
+    { week: "W6", revenue: 12450, target: 10800 },
+  ];
+
+  const wasteBreakdown = [
+    {
+      name: "Overproduction",
+      value: 42,
+      lightColor: "#2563eb",
+      darkColor: "#60a5fa",
+    },
+    {
+      name: "Expired stock",
+      value: 28,
+      lightColor: "#d97706",
+      darkColor: "#fbbf24",
+    },
+    {
+      name: "Preparation",
+      value: 18,
+      lightColor: "#059669",
+      darkColor: "#34d399",
+    },
+    {
+      name: "Customer returns",
+      value: 12,
+      lightColor: "#e11d48",
+      darkColor: "#fb7185",
+    },
+  ];
+
+  const recommendations = [
+    {
+      priority: "Highest impact",
+      title: "Reduce Chicken Teriyaki prep by 12 units",
+      description:
+        "Overproduction is your largest waste source and this item accounts for 34 leftover units.",
+      impact: "Save up to $60 this week",
+      tone: "blue",
+    },
+    {
+      priority: "Needs attention",
+      title: "Review Salmon Sashimi stock rotation",
+      description:
+        "18 portions were left over. Check delivery timing and prep closer to the dinner service.",
+      impact: "Prevent $144 loss",
+      tone: "amber",
+    },
+    {
+      priority: "Quick win",
+      title: "Promote Miso Soup as a set add-on",
+      description:
+        "42 portions remain. Pairing it with popular bentos can improve sell-through before closing.",
+      impact: "Recover $42 value",
+      tone: "green",
+    },
   ];
 
   return (
@@ -206,6 +274,264 @@ export const Dashboard = ({ theme = "light" }: DashboardProps) => {
           </div>
         </Card>
       </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <Card theme={theme} className="xl:col-span-2 flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3
+                className={`font-semibold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+              >
+                Revenue Trend
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                Actual revenue against weekly target
+              </p>
+            </div>
+            <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-500">
+              +14.8%
+            </span>
+          </div>
+          <div
+            className={`h-64 rounded-[22px] border p-3 ${
+              isDark
+                ? "bg-slate-950/70 border-slate-700"
+                : "bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200"
+            }`}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={revenueTrend}
+                margin={{ top: 8, right: 8, left: -16, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="0%"
+                      stopColor={isDark ? "#60a5fa" : "#2563eb"}
+                      stopOpacity={0.35}
+                    />
+                    <stop
+                      offset="100%"
+                      stopColor={isDark ? "#60a5fa" : "#2563eb"}
+                      stopOpacity={0.02}
+                    />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  stroke={isDark ? "#334155" : "#e2e8f0"}
+                  strokeDasharray="3 3"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="week"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: isDark ? "#94a3b8" : "#64748b", fontSize: 11 }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: isDark ? "#94a3b8" : "#64748b", fontSize: 11 }}
+                  tickFormatter={(value: number) => `$${value / 1000}k`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    border: `1px solid ${isDark ? "#334155" : "#e2e8f0"}`,
+                    borderRadius: "12px",
+                    color: isDark ? "#f8fafc" : "#0f172a",
+                  }}
+                  formatter={(value: number, name: string) => [
+                    `$${value.toLocaleString()}`,
+                    name === "revenue" ? "Revenue" : "Target",
+                  ]}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke={isDark ? "#60a5fa" : "#2563eb"}
+                  strokeWidth={3}
+                  fill="url(#revenueFill)"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="target"
+                  stroke={isDark ? "#94a3b8" : "#94a3b8"}
+                  strokeDasharray="5 5"
+                  strokeWidth={2}
+                  fill="none"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        <Card theme={theme} className="flex flex-col gap-4">
+          <div className="flex items-start justify-between gap-3">
+            <h3
+              className={`font-semibold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+            >
+              <span className="block">Waste Sources</span>
+              <span className="mt-1 block text-xs font-normal text-slate-400">
+                How this week&apos;s waste happened
+              </span>
+            </h3>
+            <span
+              className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                isDark
+                  ? "bg-slate-800 text-slate-300"
+                  : "bg-slate-100 text-slate-500"
+              }`}
+            >
+              112 units
+            </span>
+          </div>
+          <div className="relative h-52">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={wasteBreakdown}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={52}
+                  outerRadius={76}
+                  paddingAngle={3}
+                  stroke="none"
+                >
+                  {wasteBreakdown.map((entry) => (
+                    <Cell
+                      key={entry.name}
+                      fill={isDark ? entry.darkColor : entry.lightColor}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    border: `1px solid ${isDark ? "#334155" : "#e2e8f0"}`,
+                    borderRadius: "12px",
+                    color: isDark ? "#f8fafc" : "#0f172a",
+                  }}
+                  formatter={(value: number) => [`${value}%`, "Share"]}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+              <span
+                className={`text-2xl font-bold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+              >
+                112
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.16em] text-slate-400">
+                units wasted
+              </span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            {wasteBreakdown.map((entry) => (
+              <div key={entry.name} className="flex items-center gap-2 text-xs">
+                <span
+                  className="h-2.5 w-2.5 rounded-full"
+                  style={{
+                    backgroundColor: isDark
+                      ? entry.darkColor
+                      : entry.lightColor,
+                  }}
+                />
+                <span className={isDark ? "text-slate-300" : "text-slate-600"}>
+                  {entry.name}
+                </span>
+                <span className="ml-auto font-semibold text-slate-400">
+                  {entry.value}%
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <Card theme={theme} className="flex flex-col gap-5">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-500">
+              Recommended next steps
+            </p>
+            <h3
+              className={`mt-1 text-xl font-semibold tracking-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}
+            >
+              Turn today&apos;s waste data into action
+            </h3>
+            <p className="mt-1 text-sm text-slate-400">
+              Prioritized suggestions based on waste volume, item value, and
+              sell-through.
+            </p>
+          </div>
+          <div
+            className={`rounded-2xl border px-4 py-3 text-right ${
+              isDark
+                ? "border-emerald-500/20 bg-emerald-500/10"
+                : "border-emerald-200 bg-emerald-50"
+            }`}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-600">
+              Potential recovery
+            </p>
+            <p className="mt-0.5 text-xl font-bold text-emerald-600">$246</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+          {recommendations.map((recommendation, index) => {
+            const recommendationTone = {
+              blue: isDark
+                ? "border-blue-400/20 bg-blue-400/10"
+                : "border-blue-100 bg-blue-50/70",
+              amber: isDark
+                ? "border-amber-400/20 bg-amber-400/10"
+                : "border-amber-100 bg-amber-50/70",
+              green: isDark
+                ? "border-emerald-400/20 bg-emerald-400/10"
+                : "border-emerald-100 bg-emerald-50/70",
+            }[recommendation.tone];
+
+            return (
+              <div
+                key={recommendation.title}
+                className={`flex flex-col justify-between gap-5 rounded-2xl border p-4 ${recommendationTone}`}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                      0{index + 1} / {recommendation.priority}
+                    </span>
+                    <span className="text-lg" aria-hidden="true">
+                      {index === 0 ? "↗" : index === 1 ? "!" : "✓"}
+                    </span>
+                  </div>
+                  <h4
+                    className={`mt-3 text-sm font-semibold leading-5 ${isDark ? "text-slate-100" : "text-slate-900"}`}
+                  >
+                    {recommendation.title}
+                  </h4>
+                  <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
+                    {recommendation.description}
+                  </p>
+                </div>
+                <div
+                  className={`border-t pt-3 text-xs font-semibold ${
+                    isDark
+                      ? "border-white/10 text-slate-200"
+                      : "border-black/5 text-slate-700"
+                  }`}
+                >
+                  {recommendation.impact}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
     </div>
   );
 };
